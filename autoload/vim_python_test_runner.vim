@@ -34,7 +34,10 @@ def get_proper_command(desired_command, current_directory):
         "pytest_base_method": lambda: get_command_to_run_current_base_method_with_pytests(vim.current.buffer.name, current_line_index, vim.current.buffer),
         "rerun": lambda: get_command_to_rerun_last_tests()
     }
-    return FUNCTIONS[desired_command]()
+    if desired_command in FUNCTIONS:
+        return FUNCTIONS[desired_command]()
+    else:
+        return FUNCTIONS["django_app"]
 
 def run_desired_command_for_os(command_to_run):
     if "nose" in vim.eval("a:command_to_run") or "nose" in command_to_run:
